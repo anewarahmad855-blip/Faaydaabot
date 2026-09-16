@@ -1,0 +1,38 @@
+name: Bot Convert Notification
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    types: [opened, closed, reopened]
+  workflow_dispatch:
+
+jobs:
+  notify-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          cd bot
+          npm install
+
+      - name: Run Bot Convert
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          ACTOR: ${{ github.actor }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          cd bot
+          node index.js

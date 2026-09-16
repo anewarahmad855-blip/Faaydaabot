@@ -1,0 +1,18 @@
+[Unit]
+Description=Telegram Bot Service
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/bot
+Environment="BOT_TOKEN="8628353271:AAFhc-_rVWdqqu9v7pyjhi4QemyZZwxEKk4"
+Environment="CHAT_ID="2047590795"
+ExecStart=/usr/bin/node index.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

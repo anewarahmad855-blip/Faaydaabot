@@ -1,0 +1,18 @@
+name: Keep Bot Alive
+
+on:
+  schedule:
+    # Yeroo hunda 5 daqiiqaa keessatti hojii irra oola
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Bot Endpoint
+        run: |
+          curl -s -X GET "https://your-bot-url.com/health" \
+            -H "Authorization: Bearer ${{ secrets.BOT_TOKEN }}" \
+            --max-time 30
+          echo "✅ Bot pinged at $(date)"
